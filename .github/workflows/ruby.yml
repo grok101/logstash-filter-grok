@@ -7,7 +7,12 @@
 
 name: Ruby
 
-on: workflow_dispatch
+on:
+  push:
+    branches: [ "build" ]
+  pull_request:
+    branches: [ "build" ]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -31,4 +36,6 @@ jobs:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Run 
-      run: bundle exec 
+      run: |
+        bundle exec rake
+        gem build *.gemspec
